@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://stats-db:5432/stat_db
+    url: jdbc:postgresql://localhost:5434/stat_db
     username: dbuser
     password: 12345
   jpa:
@@ -9,5 +9,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
 server:
   port: 0
