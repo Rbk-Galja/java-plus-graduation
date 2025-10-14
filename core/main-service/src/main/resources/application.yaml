@@ -5,9 +5,7 @@ spring:
     import: "configserver:"
   cloud:
     config:
-      fail-fast: false
-      connect-timeout: 5000  # мс
-      read-timeout: 5000
+      fail-fast: true
       discovery:
         enabled: true
         service-id: config-server
@@ -23,5 +21,4 @@ eureka:
     preferIpAddress: true
     hostname: localhost
     instance-id: "${spring.application.name}:${random.value}"
-    leaseRenewalIntervalInSeconds: 30
-    initialStatus: STARTING
+    leaseRenewalIntervalInSeconds: 10
