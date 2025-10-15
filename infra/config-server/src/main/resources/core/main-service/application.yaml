@@ -15,8 +15,6 @@ spring:
       username: dbuser
       password: 12345
       driver-class-name: org.postgresql.Driver
-server:
-  port: 0
 
 logging:
   level:
