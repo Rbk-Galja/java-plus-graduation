@@ -18,6 +18,6 @@ services:
     ports:
       - "5434:5432"
     environment:
-      - POSTGRES_DB=stat_db
+      - POSTGRES_DB=stats_db
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=12345

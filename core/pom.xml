@@ -11,10 +11,6 @@
 
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
-
-    <name>core</name>
-    <url>http://maven.apache.org</url>
-
     <modules>
         <module>main-service</module>
     </modules>
