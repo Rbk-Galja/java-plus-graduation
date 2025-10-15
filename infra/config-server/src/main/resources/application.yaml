@@ -1,7 +1,7 @@
-server:
-  port: 0
-
 spring:
+  logging:
+    level:
+      org.springframework.cloud.config: DEBUG
   application:
     name: config-server
   profiles:
@@ -11,10 +11,11 @@ spring:
       server:
         native:
           searchLocations:
-            - classpath:config/core/{application}
+            - classpath:config/core/main-service/{application}
+            - classpath:config/stats/stats-service/{application}
             - classpath:config/infra/{application}
-            - classpath:config/stats/{application}
-
+server:
+  port: 0
 eureka:
   client:
     serviceUrl:
