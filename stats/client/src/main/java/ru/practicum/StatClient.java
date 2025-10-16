@@ -15,7 +15,6 @@ import org.springframework.web.util.UriUtils;
 import ru.practicum.dto.RequestHitDto;
 import ru.practicum.dto.ResponseDto;
 
-
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class StatClient {
+
     private final DiscoveryClient discoveryClient;
     private final RetryTemplate retryTemplate;
     private final RestTemplate restTemplate;

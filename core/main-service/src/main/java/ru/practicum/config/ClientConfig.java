@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class ClientConfig {
+
     @Bean
     public RetryTemplate retryTemplate() {
         RetryTemplate rt = new RetryTemplate();
@@ -29,3 +30,4 @@ public class ClientConfig {
         return new RestTemplate();
     }
 }
+

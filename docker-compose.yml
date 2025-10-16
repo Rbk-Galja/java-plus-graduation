@@ -1,23 +1,30 @@
 services:
-
   ewm-db:
     container_name: ewm-db
     image: postgres:16.1
-    restart: always
     ports:
-      - "5435:5432"
+      - "8432:5432"
     environment:
       - POSTGRES_DB=ewm_db
       - POSTGRES_USER=dbuser
-      - POSTGRES_PASSWORD=12345
+      - POSTGRES_PASSWORD=dbuser
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 10s
+      retries: 15
 
   stats-db:
     container_name: stats-db
     image: postgres:16.1
-    restart: always
     ports:
-      - "5434:5432"
+      - "8433:5432"
     environment:
       - POSTGRES_DB=stats_db
       - POSTGRES_USER=dbuser
-      - POSTGRES_PASSWORD=12345
+      - POSTGRES_PASSWORD=dbuser
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 10s
+      retries: 15
