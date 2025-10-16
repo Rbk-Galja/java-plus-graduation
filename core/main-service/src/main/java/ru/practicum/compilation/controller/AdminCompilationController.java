@@ -35,7 +35,7 @@ public class AdminCompilationController {
 
     @PatchMapping("/{compId}")
     public CompilationDto updateCompilation(@PathVariable @Positive Long compId,
-                                            @RequestBody UpdateCompilationRequest request) {
+                                            @Valid @RequestBody UpdateCompilationRequest request) {
         log.info("Обновление подборки событий с ID: {}", compId);
         return compilationService.update(compId, request);
     }
