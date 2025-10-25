@@ -7,9 +7,11 @@ import ru.practicum.dto.event.State;
 import ru.practicum.location.model.Location;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -65,4 +67,45 @@ public class Event {
 
     @Column(name = "published_on")
     LocalDateTime publishedOn;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return participantLimit == event.participantLimit && views == event.views && Objects.equals(id, event.id)
+                && Objects.equals(title, event.title) && Objects.equals(annotation, event.annotation)
+                && Objects.equals(description, event.description) && Objects.equals(eventDate, event.eventDate)
+                && Objects.equals(categoryId, event.categoryId) && Objects.equals(location, event.location)
+                && Objects.equals(paid, event.paid) && Objects.equals(requestModeration, event.requestModeration)
+                && Objects.equals(initiatorId, event.initiatorId) && state == event.state
+                && Objects.equals(createdOn, event.createdOn) && Objects.equals(publishedOn, event.publishedOn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, annotation, description, eventDate, categoryId, location, paid, participantLimit,
+                requestModeration, initiatorId, views, state, createdOn, publishedOn);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", annotation='" + annotation + '\'' +
+                ", description='" + description + '\'' +
+                ", eventDate=" + eventDate +
+                ", categoryId=" + categoryId +
+                ", location=" + location +
+                ", paid=" + paid +
+                ", participantLimit=" + participantLimit +
+                ", requestModeration=" + requestModeration +
+                ", initiatorId=" + initiatorId +
+                ", views=" + views +
+                ", state=" + state +
+                ", createdOn=" + createdOn +
+                ", publishedOn=" + publishedOn +
+                '}';
+    }
 }

@@ -7,8 +7,10 @@ import ru.practicum.event.model.Event;
 import ru.practicum.dto.event.State;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -35,4 +37,31 @@ public class Comment {
 
     @Enumerated(EnumType.STRING)
     State status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id) && Objects.equals(text, comment.text)
+                && Objects.equals(created, comment.created) && Objects.equals(authorId, comment.authorId)
+                && Objects.equals(event, comment.event) && status == comment.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, created, authorId, event, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", created=" + created +
+                ", authorId=" + authorId +
+                ", event=" + event +
+                ", status=" + status +
+                '}';
+    }
 }

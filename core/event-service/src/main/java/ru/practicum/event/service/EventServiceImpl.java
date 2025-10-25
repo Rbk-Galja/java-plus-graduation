@@ -42,14 +42,14 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class EventServiceImpl implements EventService {
-    EventRepository eventRepository;
-    LocationRepository locationRepository;
-    UserClient userClient;
-    CategoryClient categoryClient;
-    ViewsRepository viewsRepository;
-    EventMapper eventMapper;
-    LocationMapper locationMapper;
-    RequestClient requestClient;
+    private final EventRepository eventRepository;
+    private final LocationRepository locationRepository;
+    private final UserClient userClient;
+    private final CategoryClient categoryClient;
+    private final ViewsRepository viewsRepository;
+    private final EventMapper eventMapper;
+    private final LocationMapper locationMapper;
+    private final RequestClient requestClient;
 
     @Transactional
     @Override
