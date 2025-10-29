@@ -12,7 +12,21 @@
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>main-service</module>
+        <module>event-service</module>
+        <module>user-service</module>
+        <module>common</module>
+        <module>request-service</module>
+        <module>category-service</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>
