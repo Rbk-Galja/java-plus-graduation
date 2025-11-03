@@ -10,7 +10,7 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>proto-schema</artifactId>
+    <artifactId>proto-schemas</artifactId>
 
     <dependencies>
         <dependency>
