@@ -44,9 +44,9 @@ public class PublicEventController {
                                                   @RequestParam(defaultValue = "false")
                                                   Boolean onlyAvailable,
                                                   @RequestParam(required = false) String sort,
-                                                  @RequestParam(defaultValue = "0", required = false)
+                                                  @RequestParam(defaultValue = "0")
                                                   @PositiveOrZero Integer from,
-                                                  @RequestParam(defaultValue = "10", required = false) @Positive Integer size) {
+                                                  @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Получаем мероприятия с фильтрацией");
         Pageable page = PageRequest.of(from, size);
         EventSearchParam eventSearchParam = EventSearchParam.builder()

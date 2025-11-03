@@ -27,9 +27,9 @@ public class AdminController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getUsers(@RequestParam(required = false, defaultValue = "") List<Long> ids,
-                                  @RequestParam(required = false, defaultValue = "0") @Min(0) Long from,
-                                  @RequestParam(required = false, defaultValue = "10") @Min(1) Long size) {
+    public List<UserDto> getUsers(@RequestParam(defaultValue = "") List<Long> ids,
+                                  @RequestParam(defaultValue = "0") @Min(0) Long from,
+                                  @RequestParam(defaultValue = "10") @Min(1) Long size) {
         log.info("Запрос на получение всех пользователей удовлетворяющему условию: ids {}, from {}, size {}",
                 ids, from, size);
         return userService.getUsers(ids, from, size);
