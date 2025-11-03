@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS views;
 DROP TABLE IF EXISTS compilation_event;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS locations;
@@ -29,7 +28,6 @@ CREATE TABLE IF NOT EXISTS events (
     participant_limit BIGINT NOT NULL DEFAULT 0,
     request_moderation BOOLEAN NOT NULL DEFAULT FALSE,
     initiator_id BIGINT NOT NULL,
-    views INTEGER,
     state VARCHAR,
     created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     published_on TIMESTAMP WITHOUT TIME ZONE
@@ -39,13 +37,6 @@ CREATE TABLE IF NOT EXISTS compilation_event (
     compilation_id BIGINT REFERENCES compilations(id) ON DELETE CASCADE,
     event_id BIGINT REFERENCES events(id) ON DELETE CASCADE,
     PRIMARY KEY (compilation_id, event_id)
-);
-
-CREATE TABLE IF NOT EXISTS views (
-    id SERIAL PRIMARY KEY,
-    event_id BIGINT NOT NULL,
-    ip VARCHAR(45) NOT NULL,
-    CONSTRAINT unique_event_ip UNIQUE (event_id, ip)
 );
 
 CREATE TABLE IF NOT EXISTS comments(

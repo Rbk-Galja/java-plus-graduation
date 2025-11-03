@@ -14,15 +14,10 @@ public class EventShortDto {
     Long id;
     String title;
     String annotation;
-
     Long confirmedRequests;
-    Long views;
-
     boolean paid;
-
     CategoryDto category;
-
     UserShortDto initiator;
-
     String eventDate;
+    double rating;
 }

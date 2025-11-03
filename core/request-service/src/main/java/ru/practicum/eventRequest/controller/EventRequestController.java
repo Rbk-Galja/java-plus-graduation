@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.client.CollectorClient;
 import ru.practicum.dto.request.EventRequestDto;
 import ru.practicum.eventRequest.dto.EventRequestUpdateDto;
 import ru.practicum.eventRequest.dto.EventRequestUpdateResult;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventRequestController {
     private final EventRequestService eventRequestService;
+    private final CollectorClient collectorClient;
 
     @GetMapping("/requests")
     public List<EventRequestDto> getUsersEventList(@PathVariable Long userId) {
@@ -30,6 +32,7 @@ public class EventRequestController {
     public EventRequestDto createUserRequestToEvent(@PathVariable Long userId,
                                                     @RequestParam Long eventId) {
         log.info("Создание запроса на участие события с id: {} пользователем id: {}", eventId, userId);
+        collectorClient.sendEventRegistration(userId, eventId);
         return eventRequestService.createRequest(userId, eventId);
     }
 

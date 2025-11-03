@@ -1,6 +1,5 @@
 package ru.practicum.event.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.Valid;
@@ -10,16 +9,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.StatClient;
 import ru.practicum.comment.dto.CommentDto;
 import ru.practicum.comment.dto.NewCommentDto;
 import ru.practicum.comment.service.CommentService;
-import ru.practicum.dto.RequestHitDto;
 import ru.practicum.dto.event.EventDto;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.service.EventService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrivateEventController {
     private final EventService eventService;
-    private final StatClient statClient;
     private final CommentService commentService;
 
     @PostMapping
@@ -50,34 +45,16 @@ public class PrivateEventController {
     @GetMapping
     public List<EventShortDto> getEventsByUser(@PathVariable("userId") long userId,
                                                @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
-                                               @RequestParam(required = false, defaultValue = "10") @Positive Integer size,
-                                               HttpServletRequest request) {
+                                               @RequestParam(required = false, defaultValue = "10") @Positive Integer size) {
         Pageable page = PageRequest.of(from, size);
-        RequestHitDto hitDto = RequestHitDto.builder()
-                .app("ewm-main-service")
-                .ip(request.getRemoteAddr())
-                .uri(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build();
-        log.info("Отправляем данные по запросу getEventsByUser в сервис статистики {}", hitDto.toString());
-        statClient.sendHit(hitDto);
-        return eventService.getUsersEvents(userId, page, request.getRemoteAddr());
+        return eventService.getUsersEvents(userId, page);
     }
 
     @GetMapping("/{eventId}")
     public EventDto getEventById(@PathVariable("userId") long userId,
-                                 @PathVariable("eventId") long eventId,
-                                 HttpServletRequest request) {
+                                 @PathVariable("eventId") long eventId) {
         log.info("Получение конкретной информации для конкретного пользователя о мероприятии");
-        RequestHitDto hitDto = RequestHitDto.builder()
-                .app("ewm-main-service")
-                .ip(request.getRemoteAddr())
-                .uri(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build();
-        log.info("Отправляем данные по запросу getEventById в сервис статистики {}", hitDto.toString());
-        statClient.sendHit(hitDto);
-        return eventService.getByIdPrivate(userId, eventId, request.getRemoteAddr());
+        return eventService.getByIdPrivate(userId, eventId);
     }
 
     @GetMapping("/comments")
