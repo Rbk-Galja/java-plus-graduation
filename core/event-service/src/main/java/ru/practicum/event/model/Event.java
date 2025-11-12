@@ -56,9 +56,6 @@ public class Event {
     @JoinColumn(name = "initiator_id")
     Long initiatorId;
 
-    @Column(name = "views")
-    int views;
-
     @Enumerated(EnumType.STRING)
     State state;
 
@@ -73,7 +70,7 @@ public class Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return participantLimit == event.participantLimit && views == event.views && Objects.equals(id, event.id)
+        return participantLimit == event.participantLimit && Objects.equals(id, event.id)
                 && Objects.equals(title, event.title) && Objects.equals(annotation, event.annotation)
                 && Objects.equals(description, event.description) && Objects.equals(eventDate, event.eventDate)
                 && Objects.equals(categoryId, event.categoryId) && Objects.equals(location, event.location)
@@ -85,7 +82,7 @@ public class Event {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, annotation, description, eventDate, categoryId, location, paid, participantLimit,
-                requestModeration, initiatorId, views, state, createdOn, publishedOn);
+                requestModeration, initiatorId, state, createdOn, publishedOn);
     }
 
     @Override
@@ -102,7 +99,6 @@ public class Event {
                 ", participantLimit=" + participantLimit +
                 ", requestModeration=" + requestModeration +
                 ", initiatorId=" + initiatorId +
-                ", views=" + views +
                 ", state=" + state +
                 ", createdOn=" + createdOn +
                 ", publishedOn=" + publishedOn +

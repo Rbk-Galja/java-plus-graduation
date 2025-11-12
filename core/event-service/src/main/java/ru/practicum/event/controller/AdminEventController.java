@@ -41,8 +41,8 @@ public class AdminEventController {
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
             @RequestParam(required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-            @RequestParam(defaultValue = "0", required = false) @PositiveOrZero Integer from,
-            @RequestParam(defaultValue = "10", required = false) @Positive Integer size) {
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive Integer size) {
         Pageable page = PageRequest.of(from, size);
         log.info("Получаем события в Админ API с фильтрацией");
         EventSearchParam eventSearchParam = EventSearchParam.builder()
@@ -68,8 +68,8 @@ public class AdminEventController {
                                         @DateTimeFormat(pattern = RequestParamHelper.DATE_TIME_FORMAT) LocalDateTime rangeStart,
                                         @RequestParam(required = false)
                                         @DateTimeFormat(pattern = RequestParamHelper.DATE_TIME_FORMAT) LocalDateTime rangeEnd,
-                                        @RequestParam(defaultValue = "0", required = false) @PositiveOrZero Integer from,
-                                        @RequestParam(defaultValue = "10", required = false) @Positive Integer size) {
+                                        @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                        @RequestParam(defaultValue = "10") @Positive Integer size) {
         Pageable page = PageRequest.of(from, size);
         log.info("Получаем комментарии в Админ API с фильтрацией");
         CommentSearchParam commentSearchParam = CommentSearchParam.builder()

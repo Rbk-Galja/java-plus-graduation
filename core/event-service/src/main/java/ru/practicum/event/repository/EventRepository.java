@@ -25,11 +25,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findAll(Specification<Event> spec, Pageable pageable);
 
-    @Modifying
-    @Query("UPDATE Event e SET e.views = :views WHERE e.id = :eventId")
-    void updateViews(@Param("eventId") Long eventId,
-                     @Param("views") int views);
-
     boolean existsByCategoryId(Long categoryId);
 
     boolean existsByIdAndInitiatorId(Long id, Long initiatorId);

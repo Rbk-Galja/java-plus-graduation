@@ -15,15 +15,15 @@ public interface EventService {
 
     EventDto updateEventByAdmin(Long eventId, UpdateEventRequest request);
 
-    EventDto getByIdPublic(Long eventId, String ip);
+    EventDto getByIdPublic(Long eventId);
 
-    List<EventShortDto> getUsersEvents(Long userId, Pageable page, String ip);
+    List<EventShortDto> getUsersEvents(Long userId, Pageable page);
 
-    EventDto getByIdPrivate(Long userId, Long eventId, String ip);
+    EventDto getByIdPrivate(Long userId, Long eventId);
 
     List<EventDto> getEventsWithParamAdmin(EventSearchParam eventSearchParam, Pageable page);
 
-    List<EventShortDto> getEventsWithParamPublic(EventSearchParam eventSearchParam, Pageable page, String ip);
+    List<EventShortDto> getEventsWithParamPublic(EventSearchParam eventSearchParam, Pageable page);
 
     EventDto getById(Long id);
 
@@ -32,4 +32,8 @@ public interface EventService {
     boolean existsByCategoryId(@RequestParam Long id);
 
     Long countRequestConfirmedByEventDto(Long eventId, Status status);
+
+    void sendLike(Long eventId, Long userId);
+
+    List<EventDto> getRecommendation(Long userId, int maxResult);
 }

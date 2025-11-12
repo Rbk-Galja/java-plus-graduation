@@ -19,15 +19,9 @@ spring:
       mode: always
   datasource:
     url: jdbc:postgresql://localhost:8432/ewm_db
+    driver-class-name: org.postgresql.Driver
     username: dbuser
     password: dbuser
-    driver-class-name: org.postgresql.Driver
-logging:
-  level:
-    org.springframework.orm.jpa: INFO
-    org.springframework.transaction: INFO
-    org.springframework.transaction.interceptor: TRACE
-    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
 
 resilience4j.circuitbreaker:
   configs:
@@ -35,4 +29,16 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 50
       failureRateThreshold: 50
 
-#stat-server-url: http://stats-server:9090
+grpc:
+  client:
+    analyzer:
+      address: 'discovery:///analyzer'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+    collector:
+      address: 'discovery:///collector'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext

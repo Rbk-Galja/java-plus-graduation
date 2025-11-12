@@ -1,6 +1,5 @@
 package ru.practicum.event.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.StatClient;
-import ru.practicum.dto.RequestHitDto;
+import ru.practicum.client.CollectorClient;
 import ru.practicum.dto.event.EventDto;
 import ru.practicum.event.dto.EventSearchParam;
 import ru.practicum.event.dto.EventShortDto;
@@ -25,20 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PublicEventController {
     private final EventService eventService;
-    private final StatClient statClient;
+    private final CollectorClient collectorClient;
 
     @GetMapping("/{eventId}")
-    public EventDto getById(@PathVariable Long eventId, HttpServletRequest request) {
+    public EventDto getById(@RequestHeader("X-EWM-USER-ID") long userId, @PathVariable Long eventId) {
         log.info("Получаем мероприятие для Public API по id = {}", eventId);
-        RequestHitDto hitDto = RequestHitDto.builder()
-                .app("ewm-main-service")
-                .ip(request.getRemoteAddr())
-                .uri(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build();
-        log.info("Отправляем данные по запросу getById в сервис статистики {}", hitDto.toString());
-        statClient.sendHit(hitDto);
-        return eventService.getByIdPublic(eventId, request.getRemoteAddr());
+        collectorClient.sendEventView(userId, eventId);
+        log.info("Отправляем данные в collectorClient");
+        return eventService.getByIdPublic(eventId);
     }
 
     @GetMapping
@@ -52,10 +44,9 @@ public class PublicEventController {
                                                   @RequestParam(defaultValue = "false")
                                                   Boolean onlyAvailable,
                                                   @RequestParam(required = false) String sort,
-                                                  @RequestParam(defaultValue = "0", required = false)
+                                                  @RequestParam(defaultValue = "0")
                                                   @PositiveOrZero Integer from,
-                                                  @RequestParam(defaultValue = "10", required = false) @Positive Integer size,
-                                                  HttpServletRequest request) {
+                                                  @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Получаем мероприятия с фильтрацией");
         Pageable page = PageRequest.of(from, size);
         EventSearchParam eventSearchParam = EventSearchParam.builder()
@@ -68,14 +59,20 @@ public class PublicEventController {
                 .onlyAvailable(onlyAvailable)
                 .sort(sort)
                 .build();
-        RequestHitDto hitDto = RequestHitDto.builder()
-                .app("ewm-main-service")
-                .ip(request.getRemoteAddr())
-                .uri(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build();
-        log.info("Отправляем данные по запросу getEventsWithParam в сервис статистики {}", hitDto.toString());
-        statClient.sendHit(hitDto);
-        return eventService.getEventsWithParamPublic(eventSearchParam, page, request.getRemoteAddr());
+        return eventService.getEventsWithParamPublic(eventSearchParam, page);
+    }
+
+    @PutMapping("/{eventId}/like")
+    public void sendLike(@PathVariable Long eventId, @RequestHeader("X-EWM-USER-ID") long userId) {
+        log.info("Добавляем лайк для мероприятия id={} от пользователя id={}", eventId, userId);
+        eventService.sendLike(eventId, userId);
+        collectorClient.sendEventLike(userId, eventId);
+    }
+
+    @GetMapping("/recommendations")
+    public List<EventDto> getRecommendation(@RequestHeader("X-EWM-USER-ID") Long userId,
+                                            @RequestParam Integer maxResults) {
+        log.info("Возвращаем рекомендации для пользователя id = {}", userId);
+        return eventService.getRecommendation(userId, maxResults);
     }
 }

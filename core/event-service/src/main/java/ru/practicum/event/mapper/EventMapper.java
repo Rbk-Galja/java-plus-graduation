@@ -21,7 +21,6 @@ public interface EventMapper {
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "participantLimit", ignore = true)
     @Mapping(target = "location", ignore = true)
-    @Mapping(target = "views", ignore = true)
     Event mapToEventNew(NewEventRequest request);
 
     @Mapping(target = "id", source = "event.id")
@@ -29,7 +28,9 @@ public interface EventMapper {
     @Mapping(target = "category", source = "category")
     @Mapping(target = "eventDate", dateFormat = RequestParamHelper.DATE_TIME_FORMAT)
     @Mapping(target = "confirmedRequests", source = "confirmedRequests")
-    EventShortDto mapToShortDto(Event event, UserShortDto user, CategoryDto category, Long confirmedRequests);
+    @Mapping(target = "rating", source = "rating")
+    EventShortDto mapToShortDto(Event event, UserShortDto user, CategoryDto category, Long confirmedRequests,
+                                double rating);
 
     @Mapping(target = "id", source = "event.id")
     @Mapping(target = "createdOn", dateFormat = RequestParamHelper.DATE_TIME_FORMAT)
@@ -38,5 +39,7 @@ public interface EventMapper {
     @Mapping(target = "initiator", source = "user")
     @Mapping(target = "category", source = "categoryDto")
     @Mapping(target = "confirmedRequests", source = "confirmedRequests")
-    EventDto mapToFullDto(Event event, UserShortDto user, CategoryDto categoryDto, Long confirmedRequests);
+    @Mapping(target = "rating", source = "rating")
+    EventDto mapToFullDto(Event event, UserShortDto user, CategoryDto categoryDto, Long confirmedRequests,
+                          double rating);
 }
